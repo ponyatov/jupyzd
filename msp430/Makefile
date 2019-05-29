@@ -1,4 +1,6 @@
 
+APP    ?= blink
+
 HW     ?= msp430g2
 
 TARGET ?= msp430
@@ -21,5 +23,6 @@ BINUTILS_GZ = $(BINUTILS).tar.xz
 WGET = wget -c -P $(GZ) -q
 
 gz: $(GZ)/$(BINUTILS_GZ)
+
 $(GZ)/$(BINUTILS_GZ):
 	$(WGET) https://mirror.tochlab.net/pub/gnu/binutils/$(BINUTILS_GZ)
