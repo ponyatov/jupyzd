@@ -11,3 +11,6 @@ share/python-wheels/
 share/jupyter/
 share/man/
 .ipynb_checkpoints/
+
+Untitled*.ipynb
+
