@@ -11,14 +11,19 @@ TMP = $(CWD)/tmp
 SRC = $(TMP)/src
 GNU = $(CWD)/gnu_$(TARGET)
 
+all: dirs gz binutils gdb
+
 dirs:
 	mkdir -p $(GZ) $(TMP) $(SRC) $(GNU)
 
 BINUTILS_VER = 2.32
+GDB_VER      = 8.3
 
 BINUTILS = binutils-$(BINUTILS_VER)
+GDB      = gdb-$(GDB_VER)
 
 BINUTILS_GZ = $(BINUTILS).tar.xz
+GDB_GZ      = $(GDB).tar.xz
 
 WGET = wget -c -P $(GZ) -q
 
@@ -37,9 +42,6 @@ CPU_CORES = $(shell grep processor /proc/cpuinfo|wc -l)
 
 MAKEJ = $(MAKE) -j$(CPU_CORES)
 
-xp:
-	echo $(MAKEJ)
-
 binutils: $(GNU)/bin/$(TARGET)-ld
 
 CFG_BINUTILS += --target=$(TARGET)
@@ -50,3 +52,14 @@ $(GNU)/bin/$(TARGET)-ld: $(GZ)/$(BINUTILS_GZ) $(SRC)/$(BINUTILS)/README
 
 $(GZ)/$(BINUTILS_GZ):
 	$(WGET) https://mirror.tochlab.net/pub/gnu/binutils/$(BINUTILS_GZ)
+
+gdb: $(GNU)/bin/$(TARGET)-gdb
+
+CFG_GDB += $(CFG_BINUTILS) --enable-python
+
+$(GNU)/bin/$(TARGET)-gdb: $(GZ)/$(GDB_GZ) $(SRC)/$(GDB)/README
+	rm -rf $(TMP)/$(GDB) ; mkdir $(TMP)/$(GDB) ; cd $(TMP)/$(GDB) ;\
+	$(XPATH) $(SRC)/$(GDB)/$(CFG) $(CFG_GDB) && $(MAKEJ) && $(MAKE) install-strip
+
+$(GZ)/$(GDB_GZ):
+	$(WGET) http://ftp.gnu.org/gnu/gdb/$(GDB_GZ)
