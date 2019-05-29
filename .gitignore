@@ -10,3 +10,4 @@ lib64
 share/python-wheels/
 share/jupyter/
 share/man/
+.ipynb_checkpoints/
