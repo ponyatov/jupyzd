@@ -3,8 +3,10 @@ APP    ?= blink
 
 HW     ?= msp430g2
 
--include  hw/$(HW)
--include cpu/$(CPU)
+MKFDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
+include $(MKFDIR)/hw/$(HW)
+include $(MKFDIR)/cpu/$(CPU)
 
 CWD = $(CURDIR)
 GZ  = $(HOME)/gz
