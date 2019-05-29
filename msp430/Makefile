@@ -1,4 +1,6 @@
 
+HW     ?= msp430g2
+
 TARGET ?= msp430
 
 CWD = $(CURDIR)
