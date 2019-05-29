@@ -60,7 +60,7 @@ CFG_GDB += $(CFG_BINUTILS) --enable-python
 
 $(GNU)/bin/$(TARGET)-gdb: $(GZ)/$(GDB_GZ) $(SRC)/$(GDB)/README
 	rm -rf $(TMP)/$(GDB) ; mkdir $(TMP)/$(GDB) ; cd $(TMP)/$(GDB) ;\
-	$(XPATH) $(SRC)/$(GDB)/$(CFG) $(CFG_GDB) && $(MAKEJ) && $(MAKE) install-strip
+	$(XPATH) $(SRC)/$(GDB)/$(CFG) $(CFG_GDB) && $(MAKEJ) && $(MAKE) install
 
 $(GZ)/$(GDB_GZ):
 	$(WGET) http://ftp.gnu.org/gnu/gdb/$(GDB_GZ)
