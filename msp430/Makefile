@@ -27,7 +27,18 @@ gz: $(GZ)/$(BINUTILS_GZ)
 $(SRC)/%/README: $(GZ)/%.tar.xz
 	cd $(SRC) ; xzcat $< | tar -x && touch $@
 
-CFG = configure --disable-nls
+XPATH = PATH=$(GNU)/bin:$(PATH)
+
+CFG = configure --disable-nls --prefix=$(GNU)
+
+MAKE = $(XPATH) make
+
+CPU_CORES = $(shell grep processor /proc/cpuinfo|wc -l)
+
+MAKEJ = $(MAKE) -j$(CPU_CORES)
+
+xp:
+	echo $(MAKEJ)
 
 binutils: $(GNU)/bin/$(TARGET)-ld
 
@@ -35,7 +46,7 @@ CFG_BINUTILS += --target=$(TARGET)
 
 $(GNU)/bin/$(TARGET)-ld: $(GZ)/$(BINUTILS_GZ) $(SRC)/$(BINUTILS)/README
 	rm -rf $(TMP)/$(BINUTILS) ; mkdir $(TMP)/$(BINUTILS) ; cd $(TMP)/$(BINUTILS) ;\
-	$(SRC)/$(BINUTILS)/$(CFG) $(CFG_BINUTILS)
+	$(XPATH) $(SRC)/$(BINUTILS)/$(CFG) $(CFG_BINUTILS) && $(MAKEJ) && $(MAKE) install-strip
 
 $(GZ)/$(BINUTILS_GZ):
 	$(WGET) https://mirror.tochlab.net/pub/gnu/binutils/$(BINUTILS_GZ)
