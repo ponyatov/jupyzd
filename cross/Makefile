@@ -64,3 +64,9 @@ $(GNU)/bin/$(TARGET)-gdb: $(GZ)/$(GDB_GZ) $(SRC)/$(GDB)/README
 
 $(GZ)/$(GDB_GZ):
 	$(WGET) http://ftp.gnu.org/gnu/gdb/$(GDB_GZ)
+
+clean:
+	rm -rf $(TMP)
+
+distclean: clean
+	rm -rf $(GNU)
